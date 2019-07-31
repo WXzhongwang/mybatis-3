@@ -173,7 +173,7 @@ public class ProviderSqlSource implements SqlSource {
   private Throwable extractRootCause(Exception e) {
     Throwable cause = e;
     while(cause.getCause() != null) {
-      cause = e.getCause();
+      cause = cause.getCause();
     }
     return cause;
   }
@@ -204,7 +204,7 @@ public class ProviderSqlSource implements SqlSource {
   private String invokeProviderMethod(Object... args) throws Exception {
     Object targetObject = null;
     if (!Modifier.isStatic(providerMethod.getModifiers())) {
-      targetObject = providerType.newInstance();
+      targetObject = providerType.getDeclaredConstructor().newInstance();
     }
     CharSequence sql = (CharSequence) providerMethod.invoke(targetObject, args);
     return sql != null ? sql.toString() : null;
